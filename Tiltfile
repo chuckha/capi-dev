@@ -47,7 +47,7 @@ docker_build(bootstrap_image, dir(bootstrap_provider),
         sync(dir(bootstrap_provider, 'main.go'), '/workspace/main.go'),
         sync(dir(bootstrap_provider, 'api'), '/workspace/api'),
         run('go install -v ./main.go'),
-        run('mv /go/bin/cluster-api-bootstrap-provider-kubeadm /manager'),
+        run('mv /go/bin/main /manager'),
         run('/restart.sh'),])
 
 docker_build(infrastructure_image, dir(infrastructure_provider),
