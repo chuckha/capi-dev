@@ -4,7 +4,7 @@ metadata:
   name: test-machine
 ---
 kind: KubeadmConfig
-apiVersion: bootstrap.cluster.x-k8s.io/v1alpha1
+apiVersion: bootstrap.cluster.x-k8s.io/v1alpha2
 metadata:
   name: test-config
 spec:
@@ -39,7 +39,7 @@ spec:
   bootstrap:
     configRef:
       kind: KubeadmConfig
-      apiVersion: bootstrap.cluster.x-k8s.io/v1alpha1
+      apiVersion: bootstrap.cluster.x-k8s.io/v1alpha2
       namespace: default
       name: test-config
   infrastructureRef:
