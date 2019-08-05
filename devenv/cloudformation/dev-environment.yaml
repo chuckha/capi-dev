@@ -1,0 +1,57 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: A sample template
+Parameters:
+  KeyPairName:
+    Type: String
+    Default: work-laptop
+  DevMachineCidr:
+    Type: String
+    # No default, must be supplied.
+  InstanceType:
+    Type: String
+    Default: t3.large
+  Ami:
+    Type: String
+    Default: ami-0ed01a97c9f036c18 # CAPA v1.15.1
+  UserData:
+    Type: String
+    Default: IyEvYmluL2Jhc2gKCmFwdC1nZXQgdXBkYXRlCmVjaG8gJ2V2YWwgIiQoY3VybCAtc0wgaHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3RyYXZpcy1jaS9naW1tZS9tYXN0ZXIvZ2ltbWUgfCBHSU1NRV9HT19WRVJTSU9OPXN0YWJsZSBiYXNoKSInID4+IC9ob21lL3VidW50dS8uYmFzaHJjCmVjaG8gJ2V4cG9ydCBQQVRIPS9yb290L2dvL2JpbiRQQVRIJyA+PiAvaG9tZS91YnVudHUvLmJhc2hyYwpldmFsICQoY3VybCAtc0wgaHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3RyYXZpcy1jaS9naW1tZS9tYXN0ZXIvZ2ltbWUgfCBHSU1NRV9HT19WRVJTSU9OPXN0YWJsZSBiYXNoKQpHTzExMU1PRFVMRT0ib24iIGdvIGdldCBzaWdzLms4cy5pby9raW5kQHYwLjQuMAo=
+
+Resources:
+  ClusterAPIDeveloperInstance:
+    Type: "AWS::EC2::Instance"
+    Properties:
+      ImageId: !Ref Ami
+      InstanceType: !Ref InstanceType
+      KeyName: !Ref KeyPairName
+      SecurityGroups:
+        - !Ref AllowIngressFromDevMachine
+      UserData: !Ref UserData
+      BlockDeviceMappings:
+        - DeviceName: "/dev/sda1"
+          Ebs:
+            VolumeSize: "100"
+      Tags:
+        - Key: Environment
+          Value: ClusterAPIDevelopment
+        - Key: Name
+          Value: ClusterApiDeveloperInstance
+  AllowIngressFromDevMachine:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: "A security group for instances in a Cluster API Dev environment"
+      GroupName: "ClusterAPIDevSecurityGroup"
+      SecurityGroupIngress:
+        - CidrIp: !Ref DevMachineCidr
+          Description: "Allow all traffic from a dev machine"
+          FromPort: 0
+          IpProtocol: tcp
+          ToPort: 65535
+      Tags:
+        - Key: Environment
+          Value: ClusterAPIDevelopment
+
+Outputs:
+  InstanceID:
+    Description: "The id of the developer instance"
+    Value: !Ref ClusterAPIDeveloperInstance

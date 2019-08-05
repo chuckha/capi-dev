@@ -37,7 +37,9 @@ providers = [
 for provider in providers:
     command = '''sed -i'' -e 's@image: .*@image: '"{}"'@' ./{}/config/default/manager_image_patch.yaml'''.format(provider['image'], provider['name'])
     local(command)
-    k8s_yaml(kustomize('./' + provider['name'] + '/config/default'))
+    kustomizedir = './' + provider['name'] + '/config/default'
+    # listdir(kustomizedir)
+    k8s_yaml(kustomize(kustomizedir))
 
 docker_build(core_image, './cluster-api')
 

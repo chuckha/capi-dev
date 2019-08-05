@@ -1,0 +1,10 @@
+W0805 13:03:34.848712    1753 strict.go:54] error unmarshaling configuration schema.GroupVersionKind{Group:"kubeadm.k8s.io", Version:"v1beta2", Kind:"InitConfiguration"}: error unmarshaling JSON: while decoding JSON: json: cannot unmarshal object into Go struct field NodeRegistrationOptions.taints of type []v1.Taint
+v1beta2.InitConfiguration.NodeRegistration: v1beta2.NodeRegistrationOptions.Taints: []v1.Taint: decode slice: expect [ or n, but found {, error found in #10 byte of ...|"taints":{}}}|..., bigger context ...|"InitConfiguration","nodeRegistration":{"taints":{}}}|...
+
+
+cat > /tmp/kubeadm-config.yaml <<EOF
+apiVersion: kubeadm.k8s.io/v1beta2
+kind: InitConfiguration
+nodeRegistration:
+    taints: {}
+EOF
