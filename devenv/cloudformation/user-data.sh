@@ -12,6 +12,9 @@ apiVersion: kubeadm.k8s.io/v1beta2
 kind: InitConfiguration
 nodeRegistration:
     taints: []
+    criSocket: /var/run/containerd/containerd.sock
+    kubeletExtraArgs:
+        cgroup-driver: "systemd"
 ---
 apiVersion: kubeadm.k8s.io/v1beta2
 kind: ClusterConfiguration
