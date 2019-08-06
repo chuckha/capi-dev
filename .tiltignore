@@ -1,1 +1,2 @@
-**/manager_image_patch.yaml*
+**/*.yaml*
+!manager_image_patch.yaml

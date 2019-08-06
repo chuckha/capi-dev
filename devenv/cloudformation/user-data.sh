@@ -2,6 +2,9 @@
 
 apt-get update
 
+# install docker for capdctl
+snap install docker
+
 PUBLIC_IP=$(curl --silent http://169.254.169.254/latest/meta-data/public-ipv4)
 LOCAL_IP=$(curl --silent http://169.254.169.254/latest/meta-data/local-ipv4)
 cat > /tmp/kubeadm-config.yaml <<EOF

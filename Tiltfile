@@ -54,7 +54,8 @@ docker_build(bootstrap_image, dir(bootstrap_provider),
 
 docker_build(infrastructure_image, dir(infrastructure_provider),
     live_update=[
-        sync('./cluster-api-provider-docker/controllers', '/cluster-api-provider-docker/controllers'),
+        sync(dir(infrastructure_provider, "controllers"), '/cluster-api-provider-docker/controllers'),
+        sync(dir(infrastructure_provider, "cmd", "manager", "main.go"), '/cluster-api-provider-docker/cmd/manager/main.go'),
         run('go install -v ./cmd/manager'),
         run('mv /go/bin/manager /manager'),
         run('/restart.sh'),])
