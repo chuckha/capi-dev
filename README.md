@@ -27,7 +27,10 @@ This will grab the kubeconfig and put it at `./devenv/dev-kubeconfig`.
 ### kind (recommended for linux)
 
 [Install kind](https://github.com/kubernetes-sigs/kind#please-see-our-documentation-for-more-in-depth-installation-etc)
-and create a cluster. Make sure your KUBECONFIG env var is set to the kind-created kubeconfig. 
+
+Run kind with the provided config `kind create cluster --config ./devenv/kind/config.yaml`
+
+Set KUBECONFIG.
 
 ## Run Tilt
 
