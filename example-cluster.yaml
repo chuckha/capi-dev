@@ -1,5 +1,5 @@
 kind: DockerMachine
-apiVersion: infrastructure.cluster.x-k8s.io/v1alpha1
+apiVersion: infrastructure.cluster.x-k8s.io/v1alpha2
 metadata:
   name: test-machine
 ---
@@ -44,7 +44,7 @@ spec:
       name: test-config
   infrastructureRef:
     kind: DockerMachine
-    apiVersion: infrastructure.cluster.x-k8s.io/v1alpha1
+    apiVersion: infrastructure.cluster.x-k8s.io/v1alpha2
     namespace: default
     name: test-machine
   version: "v1.14.2"
