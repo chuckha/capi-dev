@@ -3,6 +3,11 @@ apiVersion: infrastructure.cluster.x-k8s.io/v1alpha2
 metadata:
   name: test-machine
 ---
+kind: DockerCluster
+apiVersion: infrastructure.cluster.x-k8s.io/v1alpha2
+metadata:
+  name: test-cluster
+---
 kind: KubeadmConfig
 apiVersion: bootstrap.cluster.x-k8s.io/v1alpha2
 metadata:
@@ -26,6 +31,12 @@ apiVersion: cluster.x-k8s.io/v1alpha2
 metadata:
   name: my-cluster
   namespace: default
+spec:
+  infrastructureRef:
+    kind: DockerCluster
+    apiVersion: infrastructure.cluster.x-k8s.io/v1alpha2
+    name: test-cluster
+    namespace: default
 ---
 kind: Machine
 apiVersion: cluster.x-k8s.io/v1alpha2
