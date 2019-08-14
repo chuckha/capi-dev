@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 
-# Clone the various providers
+# Core Provider
 git clone git@github.com:kubernetes-sigs/cluster-api.git
-git clone git@github.com:kubernetes-sigs/cluster-api-provider-docker.git
+
+# Bootstrap Providers
 git clone git@github.com:kubernetes-sigs/cluster-api-bootstrap-provider-kubeadm.git
+
+# Infrastructure Providers
+git clone git@github.com:kubernetes-sigs/cluster-api-provider-docker.git
+git clone git@github.com:kubernetes-sigs/cluster-api-provider-aws.git

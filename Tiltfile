@@ -1,3 +1,9 @@
+enable_feature("snapshots")
+
+allow_k8s_contexts('kubernetes-admin@kubernetes')
+
+DOCKER_PROVIDER='cluster-api-provider-docker'
+AWS_PROVIDER='cluster-api-provider-aws'
 
 
 # proj is the base dir
@@ -13,7 +19,7 @@ default_registry(settings.get('default_registry'))
 
 core_provider = 'cluster-api'
 bootstrap_provider = 'cluster-api-bootstrap-provider-kubeadm'
-infrastructure_provider = 'cluster-api-provider-docker'
+infrastructure_provider = DOCKER_PROVIDER
 
 core_image = settings.get('default_core_image')
 bootstrap_image = settings.get('default_bootstrap_image')
@@ -52,6 +58,18 @@ docker_build(bootstrap_image, dir(bootstrap_provider),
         run('mv /go/bin/main /manager'),
         run('./restart.sh'),])
 
+## Uncomment one of the two depending on which infrastructure provider you are using
+
+# # aws provider
+# docker_build(infrastructure_image, dir(infrastructure_provider),
+#     live_update=[
+#         sync(dir(infrastructure_provider, "pkg"), '/workspace/pkg'),
+#         sync(dir(infrastructure_provider, "main.go"), '/workspace/main.go'),
+#         run('go install -v ./cmd/manager'),
+#         run('mv /go/bin/manager /manager'),
+#         run('./restart.sh'),])
+
+# docker provider
 docker_build(infrastructure_image, dir(infrastructure_provider),
     live_update=[
         sync(dir(infrastructure_provider, "controllers"), '/workspace/controllers'),

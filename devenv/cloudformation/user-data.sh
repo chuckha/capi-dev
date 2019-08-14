@@ -3,7 +3,8 @@
 apt-get update
 
 # install docker for capdctl
-snap install docker
+curl -fsSL https://get.docker.com -o get-docker.sh
+sh get-docker.sh
 
 PUBLIC_IP=$(curl --silent http://169.254.169.254/latest/meta-data/public-ipv4)
 LOCAL_IP=$(curl --silent http://169.254.169.254/latest/meta-data/local-ipv4)
