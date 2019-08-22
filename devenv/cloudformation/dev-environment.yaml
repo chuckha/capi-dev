@@ -12,7 +12,8 @@ Parameters:
     Default: t3.large
   Ami:
     Type: String
-    Default: ami-0ed01a97c9f036c18 # CAPA v1.15.1
+    Default: ami-053c4ea1fe6ee9b1e # CAPA v1.15.1 - eu-west-2
+    # Default: ami-0ed01a97c9f036c18 # CAPA v1.15.1 - us-west-2
   UserData:
     Type: String
     Default: IyEvYmluL2Jhc2gKCmFwdC1nZXQgdXBkYXRlCmVjaG8gJ2V2YWwgIiQoY3VybCAtc0wgaHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3RyYXZpcy1jaS9naW1tZS9tYXN0ZXIvZ2ltbWUgfCBHSU1NRV9HT19WRVJTSU9OPXN0YWJsZSBiYXNoKSInID4+IC9ob21lL3VidW50dS8uYmFzaHJjCmVjaG8gJ2V4cG9ydCBQQVRIPS9yb290L2dvL2JpbiRQQVRIJyA+PiAvaG9tZS91YnVudHUvLmJhc2hyYwpldmFsICQoY3VybCAtc0wgaHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3RyYXZpcy1jaS9naW1tZS9tYXN0ZXIvZ2ltbWUgfCBHSU1NRV9HT19WRVJTSU9OPXN0YWJsZSBiYXNoKQpHTzExMU1PRFVMRT0ib24iIGdvIGdldCBzaWdzLms4cy5pby9raW5kQHYwLjQuMAo=

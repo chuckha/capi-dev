@@ -1,5 +1,5 @@
 **/*.yaml*
 **/*.md
 !**/manager_auth_proxy_patch.yaml
-!**/manager_image_patch.yaml
+#!**/manager_image_patch.yaml
 !**/manager.yaml

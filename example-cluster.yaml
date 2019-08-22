@@ -22,7 +22,7 @@ metadata:
 spec:
   clusterConfiguration:
     certificatesDir: /etc/kubernetes/pki
-    controlPlaneEndpoint: "??unknown??"
+    controlPlaneEndpoint: ""
     dns:
       type: ""
     imageRepository: ""
