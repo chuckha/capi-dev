@@ -20,16 +20,16 @@ fi
 aws cloudformation create-stack --stack-name ClusterAPIDevEnvironment \
     --template-body file://cloudformation/dev-environment.yaml \
     --parameters \
-    ParameterKey=UserData,ParameterValue=$(base64 -i cloudformation/user-data.sh) \
+    ParameterKey=UserData,ParameterValue="$(base64 -i cloudformation/user-data.sh)" \
     ParameterKey=DevMachineCidr,ParameterValue="${MY_IP}/32" \
     ParameterKey=KeyPairName,ParameterValue="${KEY_PAIR_NAME}"
 
 aws cloudformation wait stack-create-complete --stack-name ClusterAPIDevEnvironment
 INSTANCE_ID=$(aws cloudformation describe-stacks --stack-name ClusterAPIDevEnvironment --query "Stacks[0].Outputs[0].OutputValue" --output=text)
 aws ec2 wait instance-status-ok --instance-id "${INSTANCE_ID}"
-INSTANCE_DNS=$(aws ec2 describe-instances --instance-id $INSTANCE_ID --query "Reservations[0].Instances[0].PublicDnsName" --output text)
+INSTANCE_DNS=$(aws ec2 describe-instances --instance-id ${INSTANCE_ID} --query "Reservations[0].Instances[0].PublicDnsName" --output text)
 
-ssh -o "StrictHostKeyChecking no" ubuntu@$INSTANCE_DNS 'sudo -s cat /home/ubuntu/kubeadm.conf' > dev-kubeconfig
+ssh -o "StrictHostKeyChecking no" "ubuntu@${INSTANCE_DNS}" 'sudo -s cat /home/ubuntu/kubeadm.conf' > dev-kubeconfig
 
 # make an xl instance
 # add security group allowing traffic from this IP

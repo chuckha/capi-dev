@@ -1,61 +1,243 @@
-kind: DockerCluster
-apiVersion: infrastructure.cluster.x-k8s.io/v1alpha2
-metadata:
-  name: test-cluster
+
 ---
-kind: Cluster
-apiVersion: cluster.x-k8s.io/v1alpha2
+apiVersion: infrastructure.cluster.x-k8s.io/v1alpha2
+kind: DockerCluster
 metadata:
+  creationTimestamp: null
+  name: my-cluster
+  namespace: default
+spec: {}
+status:
+  ready: false
+---
+apiVersion: cluster.x-k8s.io/v1alpha2
+kind: Cluster
+metadata:
+  creationTimestamp: null
   name: my-cluster
   namespace: default
 spec:
   infrastructureRef:
-    kind: DockerCluster
     apiVersion: infrastructure.cluster.x-k8s.io/v1alpha2
-    name: test-cluster
+    kind: DockerCluster
+    name: my-cluster
     namespace: default
+status:
+  infrastructureReady: false
 ---
-kind: KubeadmConfig
-apiVersion: bootstrap.cluster.x-k8s.io/v1alpha2
+apiVersion: infrastructure.cluster.x-k8s.io/v1alpha2
+kind: DockerMachine
 metadata:
-  name: test-config
+  creationTimestamp: null
+  name: controlplane-0
+  namespace: default
+spec: {}
+status:
+  ready: false
+---
+apiVersion: cluster.x-k8s.io/v1alpha2
+kind: Machine
+metadata:
+  creationTimestamp: null
+  labels:
+    cluster.x-k8s.io/cluster-name: my-cluster
+    cluster.x-k8s.io/control-plane: "true"
+  name: controlplane-0
+  namespace: default
+spec:
+  bootstrap:
+    configRef:
+      apiVersion: bootstrap.cluster.x-k8s.io/v1alpha2
+      kind: KubeadmConfig
+      name: controlplane-0-config
+      namespace: default
+  infrastructureRef:
+    apiVersion: infrastructure.cluster.x-k8s.io/v1alpha2
+    kind: DockerMachine
+    name: controlplane-0
+    namespace: default
+  metadata: {}
+status:
+  bootstrapReady: false
+  infrastructureReady: false
+---
+apiVersion: bootstrap.cluster.x-k8s.io/v1alpha2
+kind: KubeadmConfig
+metadata:
+  creationTimestamp: null
+  name: controlplane-0-config
+  namespace: default
 spec:
   clusterConfiguration:
-    certificatesDir: /etc/kubernetes/pki
+    apiServer: {}
+    certificatesDir: ""
     controlPlaneEndpoint: ""
+    controllerManager: {}
     dns:
       type: ""
+    etcd: {}
     imageRepository: ""
-    kubernetesVersion: v1.14.2
+    kubernetesVersion: ""
     networking:
       dnsDomain: ""
       podSubnet: ""
       serviceSubnet: ""
-    etcd: {}
+    scheduler: {}
+  initConfiguration:
+    localAPIEndpoint:
+      advertiseAddress: ""
+      bindPort: 0
+    nodeRegistration: {}
+status: {}
 ---
-kind: DockerMachine
 apiVersion: infrastructure.cluster.x-k8s.io/v1alpha2
+kind: DockerMachine
 metadata:
-  name: test-machine
----
-kind: Machine
-apiVersion: cluster.x-k8s.io/v1alpha2
-metadata:
-  name: my-machine
+  creationTimestamp: null
+  name: controlplane-1
   namespace: default
+spec: {}
+status:
+  ready: false
+---
+apiVersion: cluster.x-k8s.io/v1alpha2
+kind: Machine
+metadata:
+  creationTimestamp: null
   labels:
     cluster.x-k8s.io/cluster-name: my-cluster
-    set: controlplane
+    cluster.x-k8s.io/control-plane: "true"
+  name: controlplane-1
+  namespace: default
 spec:
   bootstrap:
     configRef:
-      kind: KubeadmConfig
       apiVersion: bootstrap.cluster.x-k8s.io/v1alpha2
+      kind: KubeadmConfig
+      name: controlplane-1-config
       namespace: default
-      name: test-config
   infrastructureRef:
-    kind: DockerMachine
     apiVersion: infrastructure.cluster.x-k8s.io/v1alpha2
+    kind: DockerMachine
+    name: controlplane-1
     namespace: default
-    name: test-machine
-  version: "v1.14.2"
+  metadata: {}
+status:
+  bootstrapReady: false
+  infrastructureReady: false
+---
+apiVersion: bootstrap.cluster.x-k8s.io/v1alpha2
+kind: KubeadmConfig
+metadata:
+  creationTimestamp: null
+  name: controlplane-1-config
+  namespace: default
+spec:
+  joinConfiguration:
+    controlPlane:
+      localAPIEndpoint:
+        advertiseAddress: ""
+        bindPort: 6443
+    discovery: {}
+    nodeRegistration: {}
+status: {}
+---
+apiVersion: infrastructure.cluster.x-k8s.io/v1alpha2
+kind: DockerMachine
+metadata:
+  creationTimestamp: null
+  name: controlplane-2
+  namespace: default
+spec: {}
+status:
+  ready: false
+---
+apiVersion: cluster.x-k8s.io/v1alpha2
+kind: Machine
+metadata:
+  creationTimestamp: null
+  labels:
+    cluster.x-k8s.io/cluster-name: my-cluster
+    cluster.x-k8s.io/control-plane: "true"
+  name: controlplane-2
+  namespace: default
+spec:
+  bootstrap:
+    configRef:
+      apiVersion: bootstrap.cluster.x-k8s.io/v1alpha2
+      kind: KubeadmConfig
+      name: controlplane-2-config
+      namespace: default
+  infrastructureRef:
+    apiVersion: infrastructure.cluster.x-k8s.io/v1alpha2
+    kind: DockerMachine
+    name: controlplane-2
+    namespace: default
+  metadata: {}
+status:
+  bootstrapReady: false
+  infrastructureReady: false
+---
+apiVersion: bootstrap.cluster.x-k8s.io/v1alpha2
+kind: KubeadmConfig
+metadata:
+  creationTimestamp: null
+  name: controlplane-2-config
+  namespace: default
+spec:
+  joinConfiguration:
+    controlPlane:
+      localAPIEndpoint:
+        advertiseAddress: ""
+        bindPort: 6443
+    discovery: {}
+    nodeRegistration: {}
+status: {}
+---
+apiVersion: infrastructure.cluster.x-k8s.io/v1alpha2
+kind: DockerMachine
+metadata:
+  creationTimestamp: null
+  name: worker-0
+  namespace: default
+spec: {}
+status:
+  ready: false
+---
+apiVersion: cluster.x-k8s.io/v1alpha2
+kind: Machine
+metadata:
+  creationTimestamp: null
+  labels:
+    cluster.x-k8s.io/cluster-name: my-cluster
+  name: worker-0
+  namespace: default
+spec:
+  bootstrap:
+    configRef:
+      apiVersion: bootstrap.cluster.x-k8s.io/v1alpha2
+      kind: KubeadmConfig
+      name: worker-0-config
+      namespace: default
+  infrastructureRef:
+    apiVersion: infrastructure.cluster.x-k8s.io/v1alpha2
+    kind: DockerMachine
+    name: worker-0
+    namespace: default
+  metadata: {}
+status:
+  bootstrapReady: false
+  infrastructureReady: false
+---
+apiVersion: bootstrap.cluster.x-k8s.io/v1alpha2
+kind: KubeadmConfig
+metadata:
+  creationTimestamp: null
+  name: worker-0-config
+  namespace: default
+spec:
+  joinConfiguration:
+    discovery: {}
+    nodeRegistration: {}
+status: {}
+---

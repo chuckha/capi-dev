@@ -49,11 +49,12 @@ for provider in providers:
 
 docker_build(core_image, './cluster-api')
 
-docker_build(bootstrap_image, dir(bootstrap_provider),
+docker_build(bootstrap_image, dir(bootstrap_provider), dockerfile=bootstrap_provider + '/Dockerfile.dev',
     live_update=[
         sync(dir(bootstrap_provider, 'controllers'), '/workspace/controllers'),
         sync(dir(bootstrap_provider, 'main.go'), '/workspace/main.go'),
         sync(dir(bootstrap_provider, 'api'), '/workspace/api'),
+        sync(dir(bootstrap_provider, 'locking'), '/workspace/locking'),
         run('go install -v ./main.go'),
         run('mv /go/bin/main /manager'),
         run('./restart.sh'),])
@@ -70,7 +71,7 @@ docker_build(bootstrap_image, dir(bootstrap_provider),
 #         run('./restart.sh'),])
 
 # docker provider
-docker_build(infrastructure_image, dir(infrastructure_provider),
+docker_build(infrastructure_image, dir(infrastructure_provider), dockerfile=infrastructure_provider + '/Dockerfile.dev',
     live_update=[
         sync(dir(infrastructure_provider, "api"), '/workspace/api'),
         sync(dir(infrastructure_provider, "docker"), '/workspace/docker'),
