@@ -41,7 +41,7 @@ providers = [
 ]
 
 for provider in providers:
-    command = '''sed -i '' -e 's@image: .*@image: '"{}"'@' ./{}/config/default/manager_image_patch.yaml'''.format(provider['image'], provider['name'])
+    command = '''sed -i'' -e 's@image: .*@image: '"{}"'@' ./{}/config/default/manager_image_patch.yaml'''.format(provider['image'], provider['name'])
     local(command)
     kustomizedir = './' + provider['name'] + '/config/default'
     # listdir(kustomizedir)
