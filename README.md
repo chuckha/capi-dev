@@ -10,6 +10,10 @@ Run `./init.sh`. This will clone some basic providers for you to try.
 
 https://docs.tilt.dev/install.html
 
+## Install Kustomize
+
+https://github.com/kubernetes-sigs/kustomize/blob/master/docs/INSTALL.md
+
 ## Get a kubernetes cluster
 
 Use kind, set up a cluster on AWS, GCP, etc. Whatever works. This will be your management cluster.
