@@ -16,6 +16,9 @@ metadata:
   name: my-cluster
   namespace: default
 spec:
+  clusterNetwork:
+    pods:
+      cidrBlocks: ["192.168.0.0/16"]
   infrastructureRef:
     apiVersion: infrastructure.cluster.x-k8s.io/v1alpha2
     kind: AWSCluster
@@ -54,7 +57,6 @@ spec:
     name: controlplane-0
     namespace: default
   version: v1.15.3
-  metadata: {}
 ---
 apiVersion: bootstrap.cluster.x-k8s.io/v1alpha2
 kind: KubeadmConfig
@@ -130,5 +132,4 @@ spec:
         kind: AWSMachineTemplate
         name: worker-md
         namespace: default
-      metadata: {}
       version: v1.15.3
