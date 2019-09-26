@@ -33,6 +33,7 @@ metadata:
   namespace: default
 spec:
   instanceType: t2.medium
+  iamInstanceProfile: "controllers.cluster-api-provider-aws.sigs.k8s.io"
   sshKeyName: work-laptop
 ---
 apiVersion: cluster.x-k8s.io/v1alpha2
@@ -89,6 +90,7 @@ spec:
     spec:
       instanceType: t2.medium
       sshKeyName: work-laptop
+      iamInstanceProfile: "nodes.cluster-api-provider-aws.sigs.k8s.io"
 ---
 apiVersion: bootstrap.cluster.x-k8s.io/v1alpha2
 kind: KubeadmConfigTemplate
