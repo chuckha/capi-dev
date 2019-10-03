@@ -32,8 +32,21 @@ Run kind with the provided config `kind create cluster --config ./devenv/kind/co
 
 Set KUBECONFIG.
 
-## Run Tilt
+## Update config.json 
 
+Make sure you update the values in `config.json ` to point to your registry. 
+
+```json
+{
+  "default_registry": "gcr.io/<your project>",
+  "default_core_image": "gcr.io/k8s-staging-cluster-api/cluster-api-controller:latest",
+  "default_bootstrap_image": "gcr.io/<your project>/cluster-api-bootstrap-provider:latest",
+  "default_infrastructure_image": "gcr.io/<your project>/manager:dev"
+}
+```
+
+## Run Tilt
+Set the _infrastructure_provider_ in the _Tiltfile_  
 run `tilt up`
 
 ## Iterate
