@@ -52,7 +52,7 @@ Set the `infrastructure_provider` in the _Tiltfile_
 ### Using the AWS provider
  
  Please note the `Tiltfile` assumes `clusterawsadm` is in the _bin_ directory of the AWS provider repo cloned 
- in the `init.sh` phase.  Before running `tilt up`, make sure you have `clusterawsadm` in  the relevant path. 
+ in the `init.sh` phase.  Before running `tilt up`, make sure you have `clusterawsadm` in the relevant path. 
  If you don't, run `make clusterawsadm` from the AWS provider repo or update the `Tiltfile`. 
 
 ## Run Tilt
