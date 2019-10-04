@@ -32,6 +32,29 @@ Run kind with the provided config `kind create cluster --config ./devenv/kind/co
 
 Set KUBECONFIG.
 
+## Update config.json 
+
+Make sure you update the values in `config.json ` to point to your registry
+
+```json
+{
+  "default_registry": "gcr.io/<your project>",
+  "default_core_image": "gcr.io/k8s-staging-cluster-api/cluster-api-controller:latest",
+  "default_bootstrap_image": "gcr.io/<your project>/cluster-api-bootstrap-provider:latest",
+  "default_infrastructure_image": "gcr.io/<your project>/manager:dev"
+}
+```
+
+## Modify the Tiltfile
+
+Set the `infrastructure_provider` in the _Tiltfile_
+
+### Using the AWS provider
+ 
+ Please note the `Tiltfile` assumes `clusterawsadm` is in the _bin_ directory of the AWS provider repo cloned 
+ in the `init.sh` phase.  Before running `tilt up`, make sure you have `clusterawsadm` in the relevant path. 
+ If you don't, run `make clusterawsadm` from the AWS provider repo or update the `Tiltfile`. 
+
 ## Run Tilt
 
 run `tilt up`
@@ -39,3 +62,4 @@ run `tilt up`
 ## Iterate
 
 Now you can quickly iterate on Cluster API
+
