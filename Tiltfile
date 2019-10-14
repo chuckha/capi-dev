@@ -2,7 +2,7 @@ enable_feature("snapshots")
 
 allow_k8s_contexts('kubernetes-admin@kubernetes')
 
-DOCKER_PROVIDER='cluster-api-provider-docker'
+DOCKER_PROVIDER='cluster-api/test/infrastructure/docker'
 AWS_PROVIDER='cluster-api-provider-aws'
 
 # Set to either Docker or AWS
