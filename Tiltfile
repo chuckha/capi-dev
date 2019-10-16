@@ -1,5 +1,4 @@
-enable_feature("snapshots")
-
+# -*- mode: Python -*-
 allow_k8s_contexts('kubernetes-admin@kubernetes')
 
 DOCKER_PROVIDER='cluster-api/test/infrastructure/docker'
