@@ -1,5 +1,4 @@
 {
   "default_registry": "gcr.io/kubernetes1-226021",
-  "default_core_image": "gcr.io/k8s-staging-cluster-api/cluster-api-controller",
-  "default_infrastructure_image": "gcr.io/kubernetes1-226021/manager:dev"
+  "default_core_image": "gcr.io/k8s-staging-cluster-api/cluster-api-controller"
 }
