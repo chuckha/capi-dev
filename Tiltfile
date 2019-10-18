@@ -10,6 +10,8 @@ infrastructure_image = settings.get('default_infrastructure_image')
 default_registry(settings.get('default_registry'))
 KUSTOMIZE_DIR = 'kustomize_dir'
 DIRECTORY = 'dir'
+DOCKER_FILE = 'dockerfile'
+CONTEXT = 'context'
 
 #######################
 # Available providers #
@@ -23,17 +25,22 @@ DOCKER = 'docker'
 provider = DOCKER
 # provider = AWS
 
-# install cluster api (always)
-k8s_yaml(kustomize('./cluster-api/config/default'))
 
+##################################################
+# define the necessary locations of the provider #
+##################################################
 infrastructure_providers = {
 	DOCKER: {
 		KUSTOMIZE_DIR: 'config/default',
 		DIRECTORY: './cluster-api/test/infrastructure/docker',
+		DOCKER_FILE: 'Dockerfile.dev',
+		CONTEXT: './cluster-api', # since this provider is in tree the build context is everything
 	},
 	AWS: {
 		KUSTOMIZE_DIR: 'config/default',
 		DIRECTORY: './cluster-api-provider-aws',
+		DOCKER_FILE: 'Dockerfile.dev',
+		CONTEXT: './cluster-api-provider-aws',
 	},
 }
 provider_data = infrastructure_providers[provider]
@@ -43,9 +50,19 @@ if provider == AWS:
 	command = '''sed -i '' -e 's@credentials: .*@credentials: '"{}"'@' {}/config/manager/credentials.yaml'''.format(b64credentials, provider_data[DIRECTORY])
 	local(command)
 
+# install cluster api (always)
+k8s_yaml(kustomize('./cluster-api/config/default'))
+
 # install infrastructure
 k8s_yaml(kustomize(provider_data[DIRECTORY] + '/' + provider_data[KUSTOMIZE_DIR]))
 
 # setup images
-docker_build(core_image, './cluster-api', context='./cluster-api', target='builder')
-docker_build(infrastructure_image, provider_data[DIRECTORY], context=provider_data[DIRECTORY])
+docker_build(core_image, './cluster-api',
+	target='builder',
+	entrypoint='/start.sh /workspace/manager',
+	ignore=['test/*'],
+)
+
+docker_build(infrastructure_image, provider_data[CONTEXT],
+	dockerfile=provider_data[DIRECTORY] + '/' + provider_data[DOCKER_FILE],
+)
