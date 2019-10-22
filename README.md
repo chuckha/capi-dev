@@ -10,6 +10,9 @@ Run `./init.sh`. This will clone some basic providers for you to try.
 
 https://docs.tilt.dev/install.html
 
+The Tiltfile uses the `target` parameter which was introduced in v0.10.8. 
+Please make sure your version of Tilt is up to date.
+
 ## Get a kubernetes cluster
 
 Use kind, set up a cluster on AWS, GCP, etc. Whatever works. This will be your management cluster.
@@ -39,15 +42,14 @@ Make sure you update the values in `config.json ` to point to your registry
 ```json
 {
   "default_registry": "gcr.io/<your project>",
-  "default_core_image": "gcr.io/k8s-staging-cluster-api/cluster-api-controller:latest",
-  "default_bootstrap_image": "gcr.io/<your project>/cluster-api-bootstrap-provider:latest",
-  "default_infrastructure_image": "gcr.io/<your project>/manager:dev"
+  "default_core_image": "gcr.io/k8s-staging-cluster-api/cluster-api-controller"
 }
 ```
 
 ## Modify the Tiltfile
 
 Set the `infrastructure_provider` in the _Tiltfile_
+Define the necessary locations of the provider and ensure the `IMAGE` is set correctly.
 
 ### Using the AWS provider
  
