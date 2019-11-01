@@ -37,6 +37,12 @@ Set KUBECONFIG.
 
 ## Update config.json 
 
+Copy the example into a file named `config.json`.
+
+```sh
+cp config.json.example config.json
+```
+
 Make sure you update the values in `config.json ` to point to your registry
 
 ```json
