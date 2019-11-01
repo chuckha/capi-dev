@@ -14,22 +14,28 @@ CONTEXT = 'context'
 IMAGE = 'image'
 TARGET = 'target'
 
-#######################
+#---------------------#
 # Available providers #
-#######################
+#---------------------#
 AWS = 'aws'
 DOCKER = 'docker'
 
-############################################
+#------------------------------------------#
 # uncomment the provider you'd like to use #
-############################################
-#provider = DOCKER
-provider = AWS
+#------------------------------------------#
+provider = DOCKER
+#provider = AWS
 
+#-----------------------------------#
+# necessary kubernetes dependencies #
+#-----------------------------------#
+# Install and wait for the cert manager webhook service to become available
+local('kubectl apply  -f https://github.com/jetstack/cert-manager/releases/download/v0.10.1/cert-manager.yaml')
+local('kubectl wait --for=condition=Available --timeout=300s apiservice v1beta1.webhook.certmanager.k8s.io')
 
-##################################################
+#------------------------------------------------#
 # define the necessary locations of the provider #
-##################################################
+#------------------------------------------------#
 infrastructure_providers = {
 	DOCKER: {
 		KUSTOMIZE_DIR: 'config/default',
@@ -55,18 +61,13 @@ if provider == AWS:
 	command = '''sed -i '' -e 's@credentials: .*@credentials: '"{}"'@' {}/config/manager/credentials.yaml'''.format(b64credentials, provider_data[DIRECTORY])
 	local(command)
 
-# First, the cert-manager and CRDs
-local('kubectl apply  -f ./cluster-api/config/certmanager/cert-manager.yaml')
-
-# wait for the service to become available
-local('kubectl wait --for=condition=Available --timeout=300s apiservice v1beta1.webhook.certmanager.k8s.io')
-
-# Second, install cluster api manager & CRDs
+# install cluster api manager & CRDs
 k8s_yaml(kustomize('./cluster-api/config/default'))
 
-# Third, install infrastructure manager & CRDs
+# install infrastructure manager & CRDs
 k8s_yaml(kustomize(provider_data[DIRECTORY] + '/' + provider_data[KUSTOMIZE_DIR]))
 
+print("building capi", core_image)
 # setup images
 docker_build(core_image, './cluster-api',
 	target='builder',
