@@ -23,15 +23,15 @@ DOCKER = 'docker'
 #------------------------------------------#
 # uncomment the provider you'd like to use #
 #------------------------------------------#
-provider = DOCKER
-#provider = AWS
+#provider = DOCKER
+provider = AWS
 
 #-----------------------------------#
 # necessary kubernetes dependencies #
 #-----------------------------------#
 # Install and wait for the cert manager webhook service to become available
-local('kubectl apply  -f https://github.com/jetstack/cert-manager/releases/download/v0.10.1/cert-manager.yaml')
-local('kubectl wait --for=condition=Available --timeout=300s apiservice v1beta1.webhook.certmanager.k8s.io')
+local('kubectl apply  -f https://github.com/jetstack/cert-manager/releases/download/v0.11.0/cert-manager.yaml')
+local('kubectl wait --for=condition=Available --timeout=300s apiservice v1beta1.webhook.cert-manager.io')
 
 #------------------------------------------------#
 # define the necessary locations of the provider #
@@ -42,7 +42,7 @@ infrastructure_providers = {
 		DIRECTORY: './cluster-api/test/infrastructure/docker',
 		DOCKER_FILE: 'Dockerfile.dev',
 		CONTEXT: './cluster-api', # since this provider is in tree the build context is everything
-		IMAGE: 'gcr.io/kubernetes1-226021/manager:dev',
+		IMAGE: 'gcr.io/k8s-staging-capi-docker/capd-manager',
 		TARGET: '',
 	},
 	AWS: {
